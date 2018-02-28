@@ -6,13 +6,13 @@ class Mandala extends Object3D {
 	constructor() {
 		super();
 
-		let numOvals = 10000;
+		let numOvals = 500;
 
 		for (var i = 0; i < numOvals; i++) {
-			let oval = new Oval();
+			let oval = new Oval(i % 2 == 0 ? 0xffffff : 0x000000);
 			oval.setRotationFromAxisAngle(new Vector3(0, 0, 1), ((Math.PI) * numOvals / 3) * (i / numOvals));
 			this.add(oval);
-			oval.position.set(0, 0, -numOvals + (i));
+			oval.position.set(0, 0, -numOvals / 3 + (i / 3));
 		}
 
 		this.update = this.update.bind(this);
