@@ -1,0 +1,28 @@
+{
+  "name": "rollup-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "copy-html": "cpx 'src/index.html' dist --watch",
+    "copy-assets": "cpx 'src/assets/**/*' dist/assets --watch",
+    "sass": "sass src/sass:dist/css --watch",
+    "browsersync": "browser-sync start --server --serveStatic 'dist' --files 'dist'",
+    "rollup": "rollup -c -w",
+    "dev": "concurrently 'npm run rollup' 'npm run copy-html' 'npm run copy-assets' 'npm run sass' 'npm run browsersync'"
+  },
+  "author": "Alexander Flink",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "browser-sync": "^2.23.6",
+    "concurrently": "^3.5.1",
+    "cpx": "^1.5.0",
+    "rollup": "^0.56.3",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-node-resolve": "^3.0.3"
+  }
+}
