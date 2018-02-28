@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "copy-html-dev": "cpx 'src/index.html' dist --watch",
-	"copy-html-build": "cpx 'src/index.html' dist",
+    "copy-html-build": "cpx 'src/index.html' dist",
     "copy-assets-dev": "cpx 'src/assets/**/*' dist/assets --watch",
     "copy-assets-build": "cpx 'src/assets/**/*' dist/assets",
     "sass-dev": "sass src/sass:dist/css --watch",
@@ -26,6 +26,11 @@
     "cpx": "^1.5.0",
     "rollup": "^0.56.3",
     "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.3.0",
     "rollup-plugin-node-resolve": "^3.0.3"
+  },
+  "dependencies": {
+    "gsap": "^1.20.4",
+    "three": "^0.90.0"
   }
 }
