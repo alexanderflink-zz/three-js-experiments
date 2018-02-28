@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "copy-html": "cpx 'src/index.html' dist --watch",
-    "copy-assets": "cpx 'src/assets/**/*' dist/assets --watch",
-    "sass": "sass src/sass:dist/css --watch",
+    "copy-html-dev": "cpx 'src/index.html' dist --watch",
+	"copy-html-build": "cpx 'src/index.html' dist",
+    "copy-assets-dev": "cpx 'src/assets/**/*' dist/assets --watch",
+    "copy-assets-build": "cpx 'src/assets/**/*' dist/assets",
+    "sass-dev": "sass src/sass:dist/css --watch",
+    "sass-build": "sass src/sass/style.scss dist/style.css",
     "browsersync": "browser-sync start --server --serveStatic 'dist' --files 'dist'",
-    "rollup": "rollup -c -w",
-    "dev": "concurrently 'npm run rollup' 'npm run copy-html' 'npm run copy-assets' 'npm run sass' 'npm run browsersync'"
+    "dev": "concurrently 'rollup -c -w' 'npm run copy-html-dev' 'npm run copy-assets-dev' 'npm run sass-dev' 'npm run browsersync'",
+    "build": "rollup -c && npm run copy-html-build && npm run copy-assets-build && npm run sass-build"
   },
   "author": "Alexander Flink",
   "license": "MIT",
