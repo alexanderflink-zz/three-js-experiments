@@ -2,12 +2,13 @@ import {Object3D, LineBasicMaterial, Geometry, Vector3, Line, TextureLoader} fro
 import {TweenMax} from "gsap";
 import utils from "../utils.js";
 import Wave from "./Wave.js";
+import noisejs from "noisejs";
 
 class LineWaves extends Object3D {
 	constructor() {
 		super();
 
-
+		this.xAnimation = 0;
 		this.onNoiseLoaded = this.onNoiseLoaded.bind(this);
 		this.noiseTexture = new TextureLoader().load("../assets/images/noise.png", this.onNoiseLoaded);
 	}
@@ -20,35 +21,53 @@ class LineWaves extends Object3D {
 		noiseCanvas.height = noiseImage.height;
 		let noiseCtx = noiseCanvas.getContext("2d");
 		noiseCtx.drawImage(noiseImage, 0, 0);
-		let noiseData = noiseCtx.getImageData(0, 0, noiseImage.width, noiseImage.height);
+		// let noiseData = noiseCtx.getImageData(0, 0, noiseImage.width, noiseImage.height);
 
-		let numWaves = 500;
-		let length = 100;
-		let numVertices = 200;
-		let magnitude = 0.7;
-		let material = new LineBasicMaterial({color: 0xffffff, linewidth: 100, opacity: 0.3, transparent: true});
+		this.numWaves = 200;
+		this.lineLength = 140;
+		this.numVertices = 100;
+		this.magnitude = 1;
+		this.lineMaterial = new LineBasicMaterial({color: 0xffffff, linewidth: 1, opacity: 0.1, transparent: true});
+		this.noise = new noisejs.Noise(Math.random());
+		this.lineGeometry = [];
 
-		for (let z = 0; z < numWaves; z++) {
+		new TimelineMax({repeat: -1, yoyo: true})
+		.to(this, 0.5, {magnitude: 6, ease: RoughEase.ease.config({ template:  Power2.easeInOut, strength: 1, points: 20, taper: "none", randomize:  true, clamp: true})})
+		.to(this, 0.5, {magnitude: 0.5, ease: RoughEase.ease.config({ template:  Power2.easeInOut, strength: 1, points: 20, taper: "none", randomize:  true, clamp: true})}, "+=0.5")
+		.to(this, 0.5, {magnitude: 5, ease: RoughEase.ease.config({ template:  Power2.easeInOut, strength: 1, points: 20, taper: "none", randomize:  true, clamp: true})}, "+=2")
 
-			let a = Math.random() * 100;
+		// create line geometries
+		for (let z = 0; z < this.numWaves; z++) {
 			let geometry = new Geometry();
-
-			// create vertices
-			for (let x = 0; x < numVertices; x++) {
-				a += 1;
-				let xValue = (x / numVertices) * length;
-				let noiseValue = this.getPixel(noiseData, Math.round(utils.map(xValue, 0, length, 0, noiseData.width)), Math.round(utils.map(z, 0, numWaves, 0, noiseData.height)));
-				geometry.vertices.push(new Vector3(xValue, utils.map(noiseValue[0], 0, 255, -5, 5), 0));
-			}
-
-			let line = new Line(geometry, material);
+			this.lineGeometry.push(geometry);
+			let line = new Line(geometry, this.lineMaterial);
 			this.add(line);
-			line.position.z = -numWaves + z;
-			line.position.x = -length / 2;
+			line.position.z = (-this.numWaves / 2) + (z / 2);
+			line.position.x = -this.lineLength / 2;
 		}
+
+		this.updateGeometry();
 
 		this.update = this.update.bind(this);
 		requestAnimationFrame(this.update);
+	}
+
+	updateGeometry() {
+		for (let z = 0; z < this.numWaves; z++) {
+
+			let geometry = this.lineGeometry[z];
+			geometry.vertices = [];
+			// create vertices
+			for (let x = 0; x < this.numVertices; x++) {
+				let xValue = (x / this.numVertices) * this.lineLength;
+				// let noiseValue = this.getPixel(noiseData, Math.round(utils.map(xValue, 0, this.lineLength, 0, noiseData.width)), Math.round(utils.map(z, 0, this.numWaves, 0, noiseData.height)));
+				// console.log(Math.round(xValue), Math.z);
+				let noiseValue = this.noise.perlin2(((xValue) / 10), (z + this.xAnimation) / 10);
+				geometry.vertices.push(new Vector3(xValue, utils.map(noiseValue, -1, 1, -this.magnitude, this.magnitude), 0));
+			}
+
+			geometry.verticesNeedUpdate = true;
+		}
 	}
 
 	getPixel(imageData, x, y) {
@@ -60,6 +79,8 @@ class LineWaves extends Object3D {
 
 	update() {
 		// this.rotation.z += 0.002;
+		this.xAnimation -= 0.3;
+		this.updateGeometry();
 		requestAnimationFrame(this.update);
 	}
 }
