@@ -22,11 +22,11 @@ class LineWaves extends Object3D {
 		noiseCtx.drawImage(noiseImage, 0, 0);
 		let noiseData = noiseCtx.getImageData(0, 0, noiseImage.width, noiseImage.height);
 
-		let numWaves = 100;
+		let numWaves = 500;
 		let length = 100;
 		let numVertices = 200;
 		let magnitude = 0.7;
-		let material = new LineBasicMaterial({color: 0xffffff, linewidth: 100, opacity: 0.5, transparent: true});
+		let material = new LineBasicMaterial({color: 0xffffff, linewidth: 100, opacity: 0.3, transparent: true});
 
 		for (let z = 0; z < numWaves; z++) {
 

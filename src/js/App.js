@@ -36,7 +36,7 @@ class App {
 		this.camera.position.z -= 0.1;
 		this.camera.position.x = utils.map(this.mouseX, 0, 1, -1, 1);
 		this.camera.position.y = utils.map(this.mouseY, 0, 1, 6, 5);
-		this.camera.lookAt(0, this.camera.position.y, this.camera.position.z - 10);
+		// this.camera.lookAt(0, this.camera.position.y, this.camera.position.z - 10);
 		// if (this.camera.position.z < -7.9) this.camera.position.z = 0;
 
 		this.renderer.render(this.scene, this.camera);
