@@ -27,10 +27,17 @@ class App {
 		this.mouseY = 0.5;
 
 		window.addEventListener("mousemove", this.onMouseMove.bind(this));
+		window.addEventListener("resize", this.onResize.bind(this));
 	}
 
 	onMouseMove(e) {
 		TweenMax.to(this, 0.2, {mouseX: e.clientX / window.innerWidth, mouseY: e.clientY / window.innerHeight});
+	}
+
+	onResize() {
+		this.camera.aspect = window.innerWidth / window.innerHeight;
+	    this.camera.updateProjectionMatrix();
+	    this.renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 
 	render() {

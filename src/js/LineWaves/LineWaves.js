@@ -8,7 +8,7 @@ class LineWaves extends Object3D {
 	constructor() {
 		super();
 
-		this.xAnimation = 0;
+		this.zAnimation = 0;
 		this.onNoiseLoaded = this.onNoiseLoaded.bind(this);
 		this.noiseTexture = new TextureLoader().load("../assets/images/noise.png", this.onNoiseLoaded);
 	}
@@ -62,7 +62,7 @@ class LineWaves extends Object3D {
 				let xValue = (x / this.numVertices) * this.lineLength;
 				// let noiseValue = this.getPixel(noiseData, Math.round(utils.map(xValue, 0, this.lineLength, 0, noiseData.width)), Math.round(utils.map(z, 0, this.numWaves, 0, noiseData.height)));
 				// console.log(Math.round(xValue), Math.z);
-				let noiseValue = this.noise.perlin2(((xValue) / 10), (z + this.xAnimation) / 10);
+				let noiseValue = this.noise.perlin2(((xValue) / 10), (z + this.zAnimation) / 10);
 				geometry.vertices.push(new Vector3(xValue, utils.map(noiseValue, -1, 1, -this.magnitude, this.magnitude), 0));
 			}
 
@@ -78,8 +78,7 @@ class LineWaves extends Object3D {
 	}
 
 	update() {
-		// this.rotation.z += 0.002;
-		this.xAnimation -= 0.3;
+		this.zAnimation -= 0.3;
 		this.updateGeometry();
 		requestAnimationFrame(this.update);
 	}
