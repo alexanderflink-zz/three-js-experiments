@@ -1,5 +1,4 @@
-import {Scene, PerspectiveCamera, WebGLRenderer, BoxGeometry, MeshBasicMaterial, Mesh} from "three";
-// import EffectComposer from "three/examples/js/postprocessing/EffectComposer.js";
+import {Scene, PerspectiveCamera, WebGLRenderer} from "three";
 import {TweenMax} from "gsap";
 import Mandala from "./Mandala/Mandala.js";
 import LineWaves from "./LineWaves/LineWaves.js";
@@ -26,6 +25,7 @@ class App {
 		this.mouseX = 0.5;
 		this.mouseY = 0.5;
 
+		// add event listeners
 		window.addEventListener("mousemove", this.onMouseMove.bind(this));
 		window.addEventListener("resize", this.onResize.bind(this));
 	}
